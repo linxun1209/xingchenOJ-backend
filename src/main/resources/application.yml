@@ -17,7 +17,7 @@ spring:
   # 数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://23.224.98.132:3306/xingchenoj
+    url: jdbc:mysql://23.224.98.132:3306/xingchenoj?useSSL=false
     username: root
     password: 419520
   # Redis 配置
@@ -45,6 +45,9 @@ server:
     # cookie 30 天过期
     session:
       cookie:
+        domain: localhost
+        same-site: lax
+        secure: false
         max-age: 2592000
 mybatis-plus:
   configuration:

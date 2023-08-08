@@ -1,30 +1,36 @@
 # 线上配置文件
-# @author <a href="https://github.com/liyupi">程序员鱼皮</a>
-# @from <a href="https://yupi.icu">编程导航知识星球</a>
+# @author xingchen
+# @from xingchen
 server:
   port: 8101
+  servlet:
+    context-path: /api
+    session:
+      cookie:
+        domain: linxunxingchen.club
+        same-site: lax
+        secure: false
 spring:
   # 数据库配置
   # todo 需替换配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://23.224.98.132:3306/xingchenoj
+    url: jdbc:mysql://23.224.98.132:3306/xingchenoj?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false
     username: root
-    password: 123456
+    password: 419520
   # Redis 配置
   # todo 需替换配置
   redis:
     database: 1
-    host: localhost
+    host: 23.224.98.132
     port: 6379
     timeout: 5000
-    password: 123456
-  # Elasticsearch 配置
-  # todo 需替换配置
+    password: 419520
+    # Elasticsearch 配置
   elasticsearch:
-    uris: http://localhost:9200
+    uris: http://23.224.98.132:9200
     username: root
-    password: 123456
+    password: 419520
 mybatis-plus:
   configuration:
     # 生产环境关闭日志
