@@ -114,7 +114,7 @@ public class QuestionController {
      */
     @PostMapping("/update")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
-    public BaseResponse<Long> updateQuestion(@RequestBody QuestionUpdateRequest questionUpdateRequest, HttpServletRequest request) {
+    public BaseResponse<Boolean> updateQuestion(@RequestBody QuestionUpdateRequest questionUpdateRequest, HttpServletRequest request) {
         if (questionUpdateRequest == null || questionUpdateRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -134,14 +134,12 @@ public class QuestionController {
         }
         // 参数校验
         questionService.validQuestion(question, false);
-        User loginUser = userService.getLoginUser(request);
-        question.setUserId(loginUser.getId());
-        question.setFavourNum(0);
-        question.setThumbNum(0);
-        boolean result = questionService.save(question);
-        ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
-        long newQuestionId = question.getId();
-        return ResultUtils.success(newQuestionId);
+        long id = questionUpdateRequest.getId();
+        // 判断是否存在
+        Question oldQuestion = questionService.getById(id);
+        ThrowUtils.throwIf(oldQuestion == null, ErrorCode.NOT_FOUND_ERROR);
+        boolean result = questionService.updateById(question);
+        return ResultUtils.success(result);
     }
 
     /**
@@ -210,13 +208,11 @@ public class QuestionController {
      * 分页获取题目列表（仅管理员）
      *
      * @param questionQueryRequest
-     * @param request
      * @return
      */
     @PostMapping("/list/page")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
-    public BaseResponse<Page<Question>> listQuestionByPage(@RequestBody QuestionQueryRequest questionQueryRequest,
-                                                           HttpServletRequest request) {
+    public BaseResponse<Page<Question>> listQuestionByPage(@RequestBody QuestionQueryRequest questionQueryRequest) {
         long current = questionQueryRequest.getCurrent();
         long size = questionQueryRequest.getPageSize();
         Page<Question> questionPage = questionService.page(new Page<>(current, size),

@@ -4,6 +4,7 @@ import lombok.Data;
 
 /**
  * 题目用例
+ * @author xing'chen
  */
 @Data
 public class JudgeCase {
