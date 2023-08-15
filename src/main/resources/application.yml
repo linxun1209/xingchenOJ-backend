@@ -17,7 +17,7 @@ spring:
   # 数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://23.224.98.132:3306/xingchenoj?useSSL=false
+    url: jdbc:mysql://localhost:3306/xingchenoj?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: 419520
   # Redis 配置
@@ -86,3 +86,6 @@ wx:
   open:
     appId: xxx
     appSecret: xxx
+# 代码沙箱配置
+codesandbox:
+  type: example
